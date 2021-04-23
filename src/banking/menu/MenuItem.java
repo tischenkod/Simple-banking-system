@@ -1,4 +1,4 @@
-package banking;
+package banking.menu;
 
 import java.util.Map;
 
@@ -17,7 +17,6 @@ public abstract class MenuItem {
     public MenuItem(int key, String name) {
         this.name = name;
         this.key = key;
-        init();
     }
 
     @Override
@@ -27,5 +26,4 @@ public abstract class MenuItem {
 
     abstract MenuResult enter();
 
-    void init() {};
 }

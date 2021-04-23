@@ -1,4 +1,4 @@
-package banking;
+package banking.menu;
 
 public enum MenuResult {
     MR_BACK,
@@ -6,7 +6,7 @@ public enum MenuResult {
 
     int stepCount = 1;
 
-    MenuResult stepCount(int count) {
+    public MenuResult stepCount(int count) {
         stepCount = count;
         return this;
     }

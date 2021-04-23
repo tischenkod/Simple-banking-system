@@ -1,4 +1,4 @@
-package banking;
+package banking.menu;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -11,10 +11,11 @@ public class ListMenuItem extends MenuItem{
 
     public ListMenuItem(int key, String name) {
         super(key, name);
+        items = new LinkedList<>();
     }
 
     public ListMenuItem() {
-        super(0, "");
+        this(0, "");
     }
 
     public ListMenuItem setOnGetCaption(GetCaptionEvent onGetCaption) {
@@ -22,18 +23,14 @@ public class ListMenuItem extends MenuItem{
         return this;
     }
 
-    @Override
-    void init() {
-        items = new LinkedList<>();
-    }
-
-    ListMenuItem add(MenuItem item) {
+    public ListMenuItem add(MenuItem item) {
         items.add(item);
         return this;
     }
 
     @Override
-    MenuResult enter() {
+    public MenuResult enter() {
+        System.out.println();
         if (items.size() == 0) {
             printCaption();
             return MenuResult.MR_NORMAL;
@@ -89,8 +86,9 @@ public class ListMenuItem extends MenuItem{
         return items.size();
     }
 
-    public void clear() {
+    public ListMenuItem clear() {
         items.clear();
+        return this;
     }
 
     public int size() {

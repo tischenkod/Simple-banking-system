@@ -1,4 +1,4 @@
-package banking;
+package banking.menu;
 
 import java.util.function.Function;
 
