@@ -1,10 +1,28 @@
 package banking;
 
+import java.security.InvalidParameterException;
 import java.util.Random;
 
 public class Card {
     int[] number;
     int[] pin;
+    long balance;
+
+    public Card(String number, String pin, long balance) {
+        if (number == null || number.length() != 16 || pin == null || pin.length() != 4) {
+            throw new InvalidParameterException();
+        }
+        this.number = new int[16];
+        for (int i = 0; i < 16; i++) {
+            this.number[i] = Integer.parseInt(number.substring(i, i+1));
+        }
+
+        this.pin = new int[4];
+        for (int i = 0; i < 4; i++) {
+            this.pin[i] = Integer.parseInt(pin.substring(i, i+1));
+        }
+        this.balance = balance;
+    }
 
     public Card() {
         number = new int[] {4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -17,6 +35,7 @@ public class Card {
         for (int i = 0; i < 4; i++) {
             pin[i] = random.nextInt(10);
         }
+        balance = 0;
     }
 
     private int lun() {

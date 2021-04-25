@@ -1,16 +1,37 @@
 package banking;
 
 import banking.menu.*;
+import org.sqlite.SQLiteDataSource;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class Main {
-    static Bank bank = new Bank();
+    static Bank bank;
 
     public static void main(String[] args) {
-        new ListMenuItem()
-                .add(new ActionMenuItem(1, "Create an account", Main::addAccount))
-                .add(new DynamicMenuItem(2, "Log into account", Main::login))
-                .add(new ActionMenuItem(0, "Exit", (item) -> MenuResult.MR_BACK))
-                .enter();
+        final String url;
+        if (args.length == 2 && args[0].equals("-fileName")) {
+            url = "jdbc:sqlite:" + args[1];
+        } else {
+            url = "jdbc:sqlite:bank.db";
+        }
+
+        SQLiteDataSource dataSource = new SQLiteDataSource();
+        dataSource.setUrl(url);
+
+        try (Connection connection = dataSource.getConnection()) {
+            bank = new Bank(connection);
+            new ListMenuItem()
+                    .add(new ActionMenuItem(1, "Create an account", Main::addAccount))
+                    .add(new DynamicMenuItem(2, "Log into account", Main::login))
+                    .add(new ActionMenuItem(0, "Exit", (item) -> MenuResult.MR_BACK))
+                    .enter();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+
         System.out.println("Bye!");
     }
 
