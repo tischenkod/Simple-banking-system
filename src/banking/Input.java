@@ -7,4 +7,8 @@ public class Input {
     public static String nextLine() {
         return scanner.nextLine();
     }
+
+    public static int nextInt() {
+        return scanner.nextInt();
+    }
 }

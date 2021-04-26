@@ -4,11 +4,13 @@ import java.security.InvalidParameterException;
 import java.util.Random;
 
 public class Card {
+    int id;
     int[] number;
     int[] pin;
     long balance;
 
-    public Card(String number, String pin, long balance) {
+    public Card(int id, String number, String pin, long balance) {
+        this.id = id;
         if (number == null || number.length() != 16 || pin == null || pin.length() != 4) {
             throw new InvalidParameterException();
         }
@@ -31,18 +33,39 @@ public class Card {
         for (int i = 0; i < 9; i++) {
             number[i + 6] = random.nextInt(10);
         }
-        number[15] = lun();
+        number[15] = lun(number);
         for (int i = 0; i < 4; i++) {
             pin[i] = random.nextInt(10);
         }
         balance = 0;
     }
 
-    private int lun() {
+    public static boolean checkLun(String cardNumber) {
+        return cardNumber.length() == 16 && lun(cardNumber) == Integer.parseInt(cardNumber.substring(15, 16));
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    private static int lun(String cardNumber) {
+        int[] array = new int[15];
+        for (int i = 0; i < 15; i++) {
+            array[i] = Integer.parseInt(cardNumber.substring(i, i + 1));
+        }
+
+        return lun(array);
+    }
+
+    private static int lun(int[] array) {
         int sum = 0;
         int tmp;
         for (int i = 0; i < 15; i++) {
-            tmp = i % 2 == 0 ? number[i] * 2 : number[i];
+            tmp = i % 2 == 0 ? array[i] * 2 : array[i];
             if (tmp > 9) {
                 tmp -= 9;
             }
@@ -75,5 +98,13 @@ public class Card {
                 getNumber() +
                 "\nYour card PIN:\n" +
                 getPin();
+    }
+
+    public long getBalance() {
+        return balance;
+    }
+
+    public void setBalance(long balance) {
+        this.balance = balance;
     }
 }
